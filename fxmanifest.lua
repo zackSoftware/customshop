@@ -17,5 +17,5 @@ client_scripts {
 
 dependencies {
     'qb-core',
-    'ox_lib'
+    'ox_lib',
 }
