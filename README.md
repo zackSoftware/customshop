@@ -1,8 +1,8 @@
 ```lua
 -- Job
 
-['jobname'] = {
-    label = 'Civilian',
+['yumyums'] = {
+    label = 'Yum Yums',
     defaultDuty = true,
     offDutyPay = true,
     grades = {

@@ -1,6 +1,10 @@
 Config = {}
 
 Config.Locations = {
+    Blip = {
+        name = 'Yum Yums',
+        location = vector3()
+    },
     Chopping = vector3(0, 0, 0),
 
     PreparingFries = vector3(0, 0, 0),
@@ -22,6 +26,7 @@ Config.Locations = {
 
 Config.Recipes = {
     big_piggy_burger = {
+        Name = 'Big Piggy Burger',
         RequiredItems = {
             ["burgerbuns"] = 1,
             ["burgermeatpatty_cooked"] = 1,
@@ -30,6 +35,7 @@ Config.Recipes = {
         }
     },
     heart_attack_burger= {
+        Name = 'Heart Attack Burger',
         RequiredItems = {
             ["burgerbuns"] = 1,
             ["burgermeatpatty_cooked"] = 3,
@@ -37,6 +43,7 @@ Config.Recipes = {
         }
     },
     filthy_crim_burger= {
+        Name = 'Filthy Crim Burger',
         RequiredItems = {
             ["burgerbuns"] = 1,
             ["burgermeatpatty_cooked"] = 1,
@@ -44,6 +51,7 @@ Config.Recipes = {
         }
     },
     danny_burger= {
+        Name = 'Danny Burger',
         RequiredItems = {
             ["burgerbuns"] = 1,
             ["burgermeatpatty_cooked"] = 1,
@@ -51,6 +59,7 @@ Config.Recipes = {
         }
     },
     vegetarian_burger= {
+        Name = 'Vegetarian Burger',
         RequiredItems = {
             ["burgerbuns"] = 1,
             ["burgervegetablepatty_raw"] = 1,
@@ -58,21 +67,25 @@ Config.Recipes = {
         }
     },
     loaded_fries= {
+        Name = 'Loaded Fries',
         RequiredItems = {
             ["choppedpotato"] = 1,
         }
     },
     french_fries= {
+        Name = 'French Fries',
         RequiredItems = {
             ["choppedpotato"] = 1,
         }
     },
     sweet_potato_fries= {
+        Name = 'Sweet Potato Fries',
         RequiredItems = {
             ["sweetpotato"] = 1,
         }
     },
     loaded_thickshake= {
+        Name = 'Loaded Milkshake',
         RequiredItems = {
             ["chocolate"] = 1,
             ["milk"] = 1,
@@ -81,12 +94,14 @@ Config.Recipes = {
         }
     },
     chocolate_milkshake= {
+        Name = 'Chocolate Milkshake',
         RequiredItems = {
             ["chocolate"] = 1,
             ["milk"] = 1,
         }
     },
     strawberry_milkshake= {
+        Name = 'Strawberry Milkshake',
         RequiredItems = {
             ["strawberries"] = 1,
             ["milk"] = 1,
