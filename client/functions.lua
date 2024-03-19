@@ -111,3 +111,23 @@ function chopePotatoe(data, itemname)
     QBCore.Functions.Notify("You made " .. data.Name, "success")
     StopAnimTask(PlayerPedId(), "amb@prop_human_bbq@male@base", "base", 1.0)
 end
+
+
+--- OX lib functions
+
+
+function choppingNumber()
+    local input =  lib.inputDialog('How many potatoes you want to chop ?', {
+        { type = 'input', label = 'Enter a number:', required = true, min = 1},
+        { type = 'checkbox', label = 'Sweet Potatoes'},
+        { type = 'checkbox', label = 'Ordinary Potatoes'},
+        }
+    )
+    if not input then return end
+    if input then 
+        print(json.encode(input))
+        local choice = input[2] or input[3]
+        
+    end
+
+end
