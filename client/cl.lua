@@ -13,13 +13,13 @@ end)
 
 Citizen.CreateThread(function()
     CustomShop = AddBlipForCoord(-1197.32, -897.655, 13.995)
-    SetBlipSprite (CustomShop, 106)
-    SetBlipDisplay(CustomShop, 4)
-    SetBlipScale  (CustomShop, 0.5)
+    SetBlipSprite (CustomShop, 870)
+    SetBlipDisplay(CustomShop, 6)
+    SetBlipScale (CustomShop, 1.0)
     SetBlipAsShortRange(CustomShop, true)
-    SetBlipColour(CustomShop, 75)
+    SetBlipColour(CustomShop, 61)
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName("CustomShop")
+    AddTextComponentSubstringPlayerName("Yum Yums")
     EndTextCommandSetBlipName(CustomShop)
 end) 
 
@@ -35,14 +35,60 @@ lib.registerContext({
       description = 'Start Chopping potatoes',
       icon = 'utensils',
       onSelect = function()
-        choppingNumber()
-        print("Pressed the button!")
+        startChopping()
+      end,
+    },
+  }
+})
+
+lib.registerContext({
+  id = 'makepatty',
+  title = 'Make Patty',
+  options = {
+    {
+      title = 'Burgers',
+      description = 'Start Making burgers!',
+      icon = 'utensils',
+      onSelect = function()
+        startPatty()
+      end,
+    },
+  }
+})
+
+lib.registerContext({
+  id = 'makefries',
+  title = 'Make fries',
+  options = {
+    {
+      title = 'Fries',
+      description = 'Start Chopping delicious fries !',
+      icon = 'utensils',
+      onSelect = function()
+        startChopping()
+      end,
+    },
+  }
+})
+
+
+
+lib.registerContext({
+  id = 'makeshake',
+  title = 'Make Milk Shake',
+  options = {
+    {
+      title = 'Milk Shake',
+      description = 'Start Making some milk shakes',
+      icon = 'utensils',
+      onSelect = function()
+        startMilkShake()
       end,
     },
   }
 })
 
 RegisterCommand('chop', function()
-  lib.showContext('chopping')
+  lib.showContext('makepatty')
 
 end)

@@ -84,7 +84,7 @@ function MakeMShake(data, itemname)
     QBCore.Functions.Notify("You made a " .. data.Name, "success")
 end  
 
-function chopePotatoe(data, itemname)
+function chopPotatoes(data, itemname)
     for k,v in pairs(data.RequiredItems) do 
         -- k is the item name and v is the amount needed
         TriggerServerEvent('QBCore:Server:RemoveItem', k, v)
@@ -116,18 +116,78 @@ end
 --- OX lib functions
 
 
-function choppingNumber()
+function startChopping()
     local input =  lib.inputDialog('How many potatoes you want to chop ?', {
-        { type = 'input', label = 'Enter a number:', required = true, min = 1},
+        
         { type = 'checkbox', label = 'Sweet Potatoes'},
         { type = 'checkbox', label = 'Ordinary Potatoes'},
+        { type = 'input', label = 'Enter a number:', required = true, min = 1},
         }
     )
     if not input then return end
-    if input then 
-        print(json.encode(input))
-        local choice = input[2] or input[3]
-        
+    local total = 0
+    for k=1, #input, 1 do 
+      if k == #input then break end
+      if input[k] then
+        total = total + 1
+      end
     end
+    if total > 1  then 
+      QBCore.Functions.Notify('You can choose only one to chop', 'error', 4000)
+      return
+    elseif total < 1 then 
+      QBCore.Functions.Notify('You must choose one to chop', 'error', 4000)
+      return
+    end
+    if input then 
+      print(json.encode(input))
+      local choice = input[2] or input[3]
+    end
+
+end
+
+function startPatty()
+  local input =  lib.inputDialog('What burger you want to make and how many?', {
+    { type = 'checkbox', label = 'Big Piggy Burger'},
+    { type = 'checkbox', label = 'Heart Attack Burger'},
+    { type = 'checkbox', label = 'Filthy Crim Burger'},
+    { type = 'checkbox', label = 'Danny Burger'},
+    { type = 'checkbox', label = 'Vegetarian Burger'},
+
+    { type = 'input', label = 'How many burgers you wanna make:', required = true, min = 1},
+    
+    }
+  )
+  ---- Logic Handling -------------------------------
+  if not input then return end
+  local total = 0
+  for k=1, #input, 1 do 
+    if k == #input then break end
+    if input[k] then
+      total = total + 1
+    end
+  end
+  ----------------------------------------------------
+  if total > 1  then 
+    QBCore.Functions.Notify('You can choose only one to cook', 'error', 4000)
+    return
+  elseif total < 1 then 
+    QBCore.Functions.Notify('You must choose one to cook', 'error', 4000)
+    return
+  end
+  if input then 
+    local choice = input[1] or input[2] or input[3] or input[4] or input[5]
+  end
+end
+
+
+function startFries()
+
+
+end
+
+
+function startMilkShake()
+
 
 end

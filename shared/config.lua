@@ -3,7 +3,7 @@ Config = {}
 Config.Locations = {
     Blip = {
         name = 'Yum Yums',
-        location = vector3()
+        location = vector3(0, 0, 0)
     },
     Chopping = vector3(0, 0, 0),
 
