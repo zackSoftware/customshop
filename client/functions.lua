@@ -33,7 +33,7 @@ function MakeFries(data, rewards)
       for k,v in pairs(data.RequiredItems) do 
         -- k is the item name and v is the amount needed
         TriggerServerEvent('customshop:server:removeItems', k, v)
-    end
+      end
     
     QBCore.Functions.Progressbar("pickup", "Frying the fries..", 4000, false, true, {
       disableMovement = true,
@@ -52,17 +52,17 @@ function MakeFries(data, rewards)
       }
     )
     Citizen.Wait(4000)
-   -- TriggerServerEvent('QBCore:Server:AddItem', itemname, 1)
+   -- TriggerServerEvent('customshop:server:addItems', rewards, 1)
     TriggerServerEvent('customshop:server:addItems', rewards, 1)
 
     QBCore.Functions.Notify("You made " .. data.Name, "success")
     StopAnimTask(PlayerPedId(), "amb@prop_human_bbq@male@base", "base", 1.0)   
 end
 
-function MakePatty(data, itemname)
+function MakePatty(data, rewards)
     for k,v in pairs(data.RequiredItems) do 
         -- k is the item name and v is the amount needed
-        TriggerServerEvent('QBCore:Server:RemoveItem', k, v)
+        TriggerServerEvent('customshop:server:removeItems', k, v)
     end
     QBCore.Functions.Progressbar("pickup", "Cooking the Patty..", 4000, false, true, {
       disableMovement = true,
@@ -81,15 +81,15 @@ function MakePatty(data, itemname)
     }    
   )
     Citizen.Wait(4000)
-    TriggerServerEvent('QBCore:Server:AddItem', itemname, 1)
+    TriggerServerEvent('customshop:server:addItems', rewards, 1)
     QBCore.Functions.Notify("You cooked "  .. data.Name, "success")
     StopAnimTask(PlayerPedId(), "amb@prop_human_bbq@male@base", "base", 1.0)
 end
 
-function MakeMShake(data, itemname)
+function MakeMShake(data, rewards)
     for k,v in pairs(data.RequiredItems) do 
         -- k is the item name and v is the amount needed
-        TriggerServerEvent('QBCore:Server:RemoveItem', k, v)
+        TriggerServerEvent('customshop:server:removeItems', k, v)
     end
     QBCore.Functions.Progressbar("pickup", "Filling up a cup..", 4000, false, true, {
       disableMovement = true,
@@ -98,15 +98,15 @@ function MakeMShake(data, itemname)
       disableCombat = false,
     })
     Citizen.Wait(4000)
-    TriggerServerEvent('QBCore:Server:AddItem', itemname, 1)
+    TriggerServerEvent('customshop:server:addItems', rewards, 1)
     QBCore.Functions.Notify("You made a " .. data.Name, "success")
 end  
 
-function chopPotatoes(data, itemname)
+function chopPotatoes(data, rewards)
     local data = Config.Recipes['potatoes'].data
     for k,v in pairs(data.RequiredItems) do 
         -- k is the item name and v is the amount needed
-        TriggerServerEvent('QBCore:Server:RemoveItem', k, v)
+        TriggerServerEvent('customshop:server:removeItems', k, v)
     end
     
     QBCore.Functions.Progressbar("pickup", "Frying the fries..", 4000, false, true, {
@@ -126,7 +126,7 @@ function chopPotatoes(data, itemname)
       }
     )
     Citizen.Wait(4000)
-    TriggerServerEvent('QBCore:Server:AddItem', itemname, 1)
+    TriggerServerEvent('customshop:server:addItems', rewards, 1)
     QBCore.Functions.Notify("You made " .. data.Name, "success")
     StopAnimTask(PlayerPedId(), "amb@prop_human_bbq@male@base", "base", 1.0)
 end
@@ -135,7 +135,7 @@ end
 --- OX lib functions
 
 
-function startChopping()
+function startChopping(itemIndex)
     local input =  lib.inputDialog('How many potatoes you want to chop ?', { 
         { type = 'checkbox', label = 'Sweet Potatoes'},
         { type = 'checkbox', label = 'Ordinary Potatoes'},
@@ -170,116 +170,92 @@ function startChopping()
 
 end
 
-function startPatty()
+function startPatty(itemIndex)
   local input =  lib.inputDialog('What burger you want to make and how many?', {
-    { type = 'checkbox', label = 'Big Piggy Burger'},
-    { type = 'checkbox', label = 'Heart Attack Burger'},
-    { type = 'checkbox', label = 'Filthy Crim Burger'},
-    { type = 'checkbox', label = 'Danny Burger'},
-    { type = 'checkbox', label = 'Vegetarian Burger'},
-
     { type = 'number', label = 'How many burgers you wanna make:', required = true, min = 1},
-    
     }
   )
   ---- Logic Handling -------------------------------
   if not input then return end
-  local total = 0
-  for k=1, #input - 1, 1 do 
-    if input[k] then
-      total = total + 1
+  local count = input[1]
+  local itemIndex = itemIndex
+  QBCore.Functions.TriggerCallback('customshop:server:get:requiredItems', function(result)
+    if not result then 
+      QBCore.Functions.Notify('You\'re Missing some items', 'error', 4000)
+      return
     end
-  end
-  ----------------------------------------------------
-  if total > 1  then 
-    QBCore.Functions.Notify('You can choose only one to cook', 'error', 4000)
-    return
-  elseif total < 1 then 
-    QBCore.Functions.Notify('You must choose one to cook', 'error', 4000)
-    return
-  end
-  if input then 
-    local choice
-    for i = 1, #input - 1 do
-        if input[i] then
-            choice = input[i]
-            break
-        end
-    end
-    print(indexOf(input, choice))
-  end
-end
-
-
-function startFries()
-  local input =  lib.inputDialog('What burger you want to make and how many?', {
-    { type = 'checkbox', label = 'Loaded Fries'},
-    { type = 'checkbox', label = 'French Fries'},
-    { type = 'checkbox', label = 'Sweet Potato Fries'},
-
-    { type = 'number', label = 'How many burgers you wanna make:', required = true, min = 1},
+    Cooking = true
     
-    }
-  )
-  ---- Logic Handling -------------------------------
-  if not input then return end
-  local total = 0
-  for k=1, #input - 1, 1 do 
-    if input[k] then
-      total = total + 1
-    end
-  end
-  ----------------------------------------------------
-  if total > 1  then 
-    QBCore.Functions.Notify('You can choose only one', 'error', 4000)
-    return
-  elseif total < 1 then 
-    QBCore.Functions.Notify('You must choose one', 'error', 4000)
-    return
-  end
-  
-  if input then 
-    local choice
-    for i = 1, #input - 1 do
-        if input[i] then
-            choice = input[i]
-            break
-        end
-        
-    end
-    local count = input[#input]
-    local itemIndex = indexOf(input,choice)
-    QBCore.Functions.TriggerCallback('customshop:server:get:requiredItems', function(result)
-      if not result then 
-        QBCore.Functions.Notify('You\'re Missing some items', 'error', 4000)
-        return
-      end
-      Cooking = true
-      
-      while Cooking do 
-        if count > 0 then
-          print('Cooking,', count, Cooking )
-          count = count - 1
-          if IsControlJustPressed(0, 200) then 
-            print('Setting Cooking to', Cooking )
-            Cooking = false
-            break 
-          end
-          MakeFries(Config.Recipes["fries"][indexOf(input,choice)], Config.Recipes["fries"][indexOf(input,choice)].Rewards)   
-          Wait(4200)
-        else
-          Cooking = false
+    while Cooking do 
+      if count > 0 then
+        print('Cooking,', count, Cooking )
+        count = count - 1
+        if IsControlJustPressed(0, 200) then 
           print('Setting Cooking to', Cooking )
-
+          Cooking = false
           break 
         end
+        MakeFries(Config.Recipes["fries"][itemIndex], Config.Recipes["fries"][itemIndex].Rewards)   
+        Wait(4200)
+      else
+        Cooking = false
+        print('Setting Cooking to', Cooking )
+
+        break 
       end
-    end, Config.Recipes["fries"][indexOf(input,choice)].RequiredItems, count) 
-  end
+    end
+  end, Config.Recipes["fries"][itemIndex].RequiredItems, count) 
 end
 
 
-function startMilkShake()
+function startFries(itemIndex)
+ 
+  local input =  lib.inputDialog('What burger you want to make and how many?', {
+    -- { type = 'checkbox', label = 'Loaded Fries'},
+    -- --{ type = 'multi-select', options = {value = '1'}, label = 'Loaded Fries', description = 'x1 Chopped Potatoes'},
+
+    -- { type = 'checkbox', label = 'French Fries'},
+    -- { type = 'checkbox', label = 'Sweet Potato Fries'},
+
+    { type = 'number', label = 'How many fries you wanna make:', required = true, min = 1},
+    
+    }
+  )
+  ---- Logic Handling -------------------------------
+  if not input then return end
+  local count = input[1]
+  local itemIndex = itemIndex
+  QBCore.Functions.TriggerCallback('customshop:server:get:requiredItems', function(result)
+    if not result then 
+      QBCore.Functions.Notify('You\'re Missing some items', 'error', 4000)
+      return
+    end
+    Cooking = true
+    
+    while Cooking do 
+      if count > 0 then
+        print('Cooking,', count, Cooking )
+        count = count - 1
+        if IsControlJustPressed(0, 200) then 
+          print('Setting Cooking to', Cooking )
+          Cooking = false
+          break 
+        end
+        MakeFries(Config.Recipes["fries"][itemIndex], Config.Recipes["fries"][itemIndex].Rewards)   
+        Wait(4200)
+      else
+        Cooking = false
+        print('Setting Cooking to', Cooking )
+
+        break 
+      end
+    end
+  end, Config.Recipes["fries"][itemIndex].RequiredItems, count) 
+
+end
+
+
+function startMilkShake(itemIndex)
   local input =  lib.inputDialog('What burger you want to make and how many?', {
     { type = 'checkbox', label = 'Loaded Milkshake'},
     { type = 'checkbox', label = 'Chocolate Milkshake'},
@@ -327,4 +303,8 @@ function indexOf(array, value)
       end
   end
   return nil
+end
+
+function capitalize(str)
+  return str:gsub("^%l", string.upper)
 end

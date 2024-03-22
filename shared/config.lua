@@ -6,15 +6,19 @@ Config.Locations = {
         sprite = 870,
         location = vector3(-1560.0823, -456.8985, 35.7972)
     },
-    Chopping = vector3(0, 0, 0),
+    Chopping = vector3(-1558.7715, -455.2092, 35.7973),
 
     PreparingFries = vector3(-1562.0931, -455.5031, 35.7973),
 
-    Cooking = vector3(0, 0, 0),
+    Cooking = vector3(-1559.7921, -453.7493, 35.7973),
 
-    Assembling = vector3(0, 0, 0),
+    MilkShakes = vector3(-1564.5176, -451.1414, 35.7972),
 
-    Fridge = vector3(0, 0, 0),
+    Fridges = {  
+        [1] = vector3(-1567.6212, -449.4955, 35.7973), 
+        [2] = vector3(-1566.6411, -448.5302, 35.7975), 
+        [3] = vector3(-1565.4911, -447.3758, 35.7973)
+    },
 
     Stash = vector3(0, 0, 0),
     
@@ -34,7 +38,8 @@ Config.Recipes = {
             },
             Rewards = {
                 'choppedpotato'
-            }
+            },
+            func = 'startChop' -- Do not touch this if you dom't know what you're doing ** It will break the script **
         },
         [2]= {
             Name = 'Sweet Potatoes',
@@ -43,51 +48,71 @@ Config.Recipes = {
             },
             Rewards = {
                 'choppedsweetpotato'
-            }
-
+            },
+            func = 'startChop'
         },
     },
     ["burgers"] = {
-        big_piggy_burger = {
+        [1] = {
             Name = 'Big Piggy Burger',
             RequiredItems = {
                 ["burgerbuns"] = 1,
                 ["burgermeatpatty_cooked"] = 1,
                 ["bacon"] = 3,
                 ["cheese"] = 1,
-            }
+            },
+            Rewards = {
+                'big_piggy_burger'
+            },
+            func = 'startPatty' -- Do not touch this if you dom't know what you're doing ** It will break the script **
         },
-        heart_attack_burger= {
+        [2]= {
             Name = 'Heart Attack Burger',
             RequiredItems = {
                 ["burgerbuns"] = 1,
                 ["burgermeatpatty_cooked"] = 3,
                 ["cheese"] = 1,
-            }
+            },
+            Rewards = {
+                'heart_attack_burger'
+            },
+            func = 'startPatty' -- Do not touch this if you dom't know what you're doing ** It will break the script **
         },
-        filthy_crim_burger= {
+        [3]= {
             Name = 'Filthy Crim Burger',
             RequiredItems = {
                 ["burgerbuns"] = 1,
                 ["burgermeatpatty_cooked"] = 1,
                 ["cheese"] = 1,
-            }
+            },
+            Rewards = {
+                'filthy_crim_burger'
+            },
+            func = 'startPatty' -- Do not touch this if you dom't know what you're doing ** It will break the script **
         },
-        danny_burger= {
+        [4]= {
             Name = 'Danny Burger',
             RequiredItems = {
                 ["burgerbuns"] = 1,
                 ["burgermeatpatty_cooked"] = 1,
                 ["cheese"] = 1,
-            }
+            },
+            Rewards = {
+                'danny_burger'
+            },
+            func = 'startPatty' -- Do not touch this if you dom't know what you're doing ** It will break the script **
         },
-        vegetarian_burger= {
+        [5]= {
             Name = 'Vegetarian Burger',
             RequiredItems = {
                 ["burgerbuns"] = 1,
                 ["burgervegetablepatty_raw"] = 1,
                 ["mixedvegetables"] = 1,
-            }
+            },
+            Rewards = {
+                'vegetarian_burger'
+            },
+            func = 'startPatty' -- Do not touch this if you dom't know what you're doing ** It will break the script **
         },
     },
     ["fries"] = {
@@ -98,7 +123,8 @@ Config.Recipes = {
             },
             Rewards = {
                 'loaded_fries'
-            }
+            },
+            func = 'startFries'
         },
         [2]= {
             Name = 'French Fries',
@@ -107,42 +133,61 @@ Config.Recipes = {
             },
             Rewards = {
                 'french_fries'
-            }
+            },
+            func = 'startFries'
+
         },
         [3]= {
             Name = 'Sweet Potato Fries',
             RequiredItems = {
-                ["sweetpotato"] = 1,
+                ["choppedsweetpotato"] = 1,
             },
             Rewards = {
                 'sweet_potato_fries'
-            }
+            },
+            func = 'startFries'
+
         },
     },
     ["milkshakes"] = {
-        loaded_thickshake= {
-            Name = 'Loaded Milkshake',
+        [1]= {
+            Name = 'Loaded ThickShake',
             RequiredItems = {
                 ["chocolate"] = 1,
                 ["milk"] = 1,
                 ["icecream"] = 1,
                 ["chocolatesyrup"] = 1,
-            }
+            },
+            Rewards = {
+                'loaded_thickshake'
+            },
+            func = 'startMilkShake' -- Do not touch this if you dom't know what you're doing ** It will break the script **
         },
-        chocolate_milkshake= {
+        [2]= {
             Name = 'Chocolate Milkshake',
             RequiredItems = {
                 ["chocolate"] = 1,
                 ["milk"] = 1,
-            }
+            },
+            Rewards = {
+                'chocolate_milkshake'
+            },
+            func = 'startMilkShake' -- Do not touch this if you dom't know what you're doing ** It will break the script **
         },
-        strawberry_milkshake= {
+        [3]= {
             Name = 'Strawberry Milkshake',
             RequiredItems = {
                 ["strawberries"] = 1,
                 ["milk"] = 1,
-            }
+            },
+            Rewards = {
+                'strawberry_milkshake'
+            },
+            func = 'startMilkShake' -- Do not touch this if you dom't know what you're doing ** It will break the script **
         }
     },
     
 }
+
+
+Config.Debug = true -- For developers

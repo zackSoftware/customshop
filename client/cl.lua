@@ -1,9 +1,6 @@
 QBCore = exports['qb-core']:GetCoreObject()
 Cooking = false
 
-
-
-
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
   PlayerJob = QBCore.Functions.GetPlayerData().job
 end)
@@ -26,7 +23,7 @@ end)
 
 Citizen.CreateThread(function()
   local Blip = Config.Locations.Blip
-  CustomShop = AddBlipForCoord(Blip.location)
+  CustomShop = AddBlipForCoord(Blip.location.x, Blip.location.y, Blip.location.z)
   SetBlipSprite(CustomShop, Blip.sprite)
   SetBlipDisplay(CustomShop, 6)
   SetBlipScale(CustomShop, 1.0)
@@ -36,6 +33,41 @@ Citizen.CreateThread(function()
   AddTextComponentSubstringPlayerName(Blip.name)
   EndTextCommandSetBlipName(CustomShop)
 end) 
+
+
+for k, v in pairs(Config.Recipes) do 
+  local options = {}
+  local desc
+
+  for i, j in pairs(v) do
+    if j.func then
+      func = _G[j.func]
+    end
+    for itemName, quantity in pairs(j.RequiredItems) do
+        desc ='x'..quantity .. ' ' .. capitalize(itemName)
+    end
+      table.insert(options, {
+          title = j.Name,
+          description = desc,
+          icon = 'utensils',
+          onSelect = function()
+            if type(func) == "function" then
+              func(i)  -- Call the function from the config file
+            else
+              if Config.Debug then
+                print("Cannot start " .. j.Name .. ". Function " .. j.func .. " is not defined.")
+              end
+            end
+          end,
+      })
+  end
+
+  lib.registerContext({
+      id = k,
+      title = 'Make ' .. k,
+      options = options
+  })
+end
 
 
 -- Cooking Menu
@@ -49,7 +81,7 @@ lib.registerContext({
       description = 'Start Chopping potatoes',
       icon = 'utensils',
       onSelect = function()
-        startChopping()
+        lib.showContext('potatoes')
       end,
     },
   }
@@ -64,7 +96,7 @@ lib.registerContext({
       description = 'Start Making burgers!',
       icon = 'utensils',
       onSelect = function()
-        startPatty()
+        lib.showContext('burgers')
       end,
     },
   }
@@ -79,7 +111,8 @@ lib.registerContext({
       description = 'Start Chopping delicious fries !',
       icon = 'utensils',
       onSelect = function()
-        startFries()
+        lib.showContext('fries')
+       -- startFries()
       end,
     },
   }
@@ -96,71 +129,78 @@ lib.registerContext({
       description = 'Start Making some milk shakes',
       icon = 'utensils',
       onSelect = function()
-        startMilkShake()
+        lib.showContext('milkshakes')
       end,
     },
   }
 })
+
+
 
 ---- Markers --------
 CreateThread(function()
   while true do
       Wait(3)
       if LocalPlayer.state.isLoggedIn and not Cooking then
-          local inRange = false
           local pos = GetEntityCoords(PlayerPedId())
-          local dist = #(pos - Config.Locations.Chopping)
+          local playerJobName = PlayerJob.name
+          if playerJobName == "yumyums" then
+            local markerLocations = {
+                { location = Config.Locations.Chopping, actionText = 'Open chopping menu', contextName = 'chopping' },
+                { location = Config.Locations.PreparingFries, actionText = 'Make fries', contextName = 'makefries' },
+                { location = Config.Locations.Cooking, actionText = 'Start Cooking Burgers', contextName = 'makepatty' },
+                { location = Config.Locations.MilkShakes, actionText = 'Make Milk Shakes', contextName = 'makeshake' },
+                { location = Config.Locations.Stash, actionText = 'Yum Yums Stash', contextName = 'burgershotStash07' }
+            }
+
+            for _, markerData in ipairs(markerLocations) do
+                local markerLocation = markerData.location
+                local actionText = markerData.actionText
+                local contextName = markerData.contextName
+
+                if #(pos - vector3(markerLocation.x, markerLocation.y, markerLocation.z)) < 10.0 then
+                    DrawMarker(2, markerLocation.x, markerLocation.y, markerLocation.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
+                    if #(pos - vector3(markerLocation.x, markerLocation.y, markerLocation.z + 0.3)) < 1.5 then
+                        DrawText3Ds(markerLocation.x, markerLocation.y, markerLocation.z + 0.3, '~g~E~w~ - ' .. actionText)
+                        if IsControlJustReleased(0, 38) then
+                            lib.showContext(contextName)
+                        end
+                    end
+                end
+            end
+          else
+            Wait(3000)
+          end
+      end
+  end
+end)
+
+
+CreateThread(function()
+  while true do
+      Wait(3)
+      if LocalPlayer.state.isLoggedIn and not Cooking then
+          local inFridgeRange = false
+          local pos = GetEntityCoords(PlayerPedId())
           if PlayerJob.name == "yumyums" then
+            for k = 1, #Config.Locations.Fridges, 1 do 
+              v = Config.Locations.Fridges[k]
+              local dist = #(pos - v)
               if dist < 10.0 then
-                inRange = true
-                  DrawMarker(2, Config.Locations.Chopping.x, Config.Locations.Chopping.y, Config.Locations.Chopping.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
-                  if #(pos - Config.Locations.Chopping) < 1.5 then
-                          DrawText3Ds(Config.Locations.Chopping.x, Config.Locations.Chopping.y, Config.Locations.Chopping.z + 0.3, 'Open chopping menu')
+                inFridgeRange = true
+                  DrawMarker(2, v.x, v.y, v.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
+                  if #(pos - v) < 1.5 then
+                          DrawText3Ds(v.x, v.y, v.z + 0.3, '~R~E~w~ - ~g~Open Fridge')
                       if IsControlJustReleased(0, 38) then
                         lib.showContext('chopping')
                       end
                   end
-              elseif  #(pos - Config.Locations.PreparingFries) < 5.0 then
-
-                  inRange = true
-                  DrawMarker(2, Config.Locations.PreparingFries.x, Config.Locations.PreparingFries.y, Config.Locations.PreparingFries.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
-                  if #(pos - vector3(Config.Locations.PreparingFries.x, Config.Locations.PreparingFries.y, Config.Locations.PreparingFries.z + 0.3)) < 1.5 then
-                          DrawText3Ds(Config.Locations.PreparingFries.x, Config.Locations.PreparingFries.y, Config.Locations.PreparingFries.z + 0.3, '~g~E~w~ - Make fries')
-                      if IsControlJustReleased(0, 38) then
-                        lib.showContext('makefries')
-                      end
-                  end
-              elseif  #(pos - Config.Locations.Cooking) < 5.0 then
-                  inRange = true
-                  DrawMarker(2, Config.Locations.Cooking.x, Config.Locations.Cooking.y, Config.Locations.Cooking.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
-                  if #(pos - vector3(Config.Locations.Cooking.x, Config.Locations.Cooking.y, Config.Locations.Cooking.z + 0.3)) < 1.5 then
-                          DrawText3Ds(Config.Locations.Cooking.x, Config.Locations.Cooking.y, Config.Locations.Cooking.z + 0.3, 'Start Cooking')
-                      if IsControlJustReleased(0, 38) then
-                        lib.showContext('makepatty')
-                      end
-                  end
-              elseif  #(pos - Config.Locations.Cooking) < 5.0 then
-                  inRange = true
-                  DrawMarker(2, Config.Locations.Cooking.x, Config.Locations.Cooking.y, Config.Locations.Cooking.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
-                  if #(pos - vector3(Config.Locations.Cooking.x, Config.Locations.Cooking.y, Config.Locations.Cooking.z + 0.3)) < 1.5 then
-                          DrawText3Ds(Config.Locations.Cooking.x, Config.Locations.Cooking.y, Config.Locations.Cooking.z + 0.3, 'Make Milk Shakes')
-                      if IsControlJustReleased(0, 38) then
-                        lib.showContext('makeshake')
-                      end
-                  end
-              elseif  #(pos - Config.Locations.Stash) < 5.0 then
-                  inRange = true
-                  DrawMarker(2, Config.Locations.Stash.x, Config.Locations.Stash.y, Config.Locations.Stash.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
-                  if #(pos - vector3(Config.Locations.Stash.x, Config.Locations.Stash.y, Config.Locations.Stash.z + 0.3)) < 1.5 then
-                          DrawText3Ds(Config.Locations.Stash.x, Config.Locations.Stash.y, Config.Locations.Stash.z + 0.3, 'Yum Yums Stash')
-                      if IsControlJustReleased(0, 38) then
-                        TriggerServerEvent("inventory:server:OpenInventory", "stash", "burgershotStash07")
-                      end
-                  end
               end
-              if not inRange then
+              if not inFridgeRange then
                   Wait(2500)
               end
+            end
+              
           else
               Wait(2500)
           end
