@@ -135,7 +135,7 @@ end
 --- OX lib functions
 
 
-function startChopping(itemIndex)
+function startChop(itemIndex)
     local input =  lib.inputDialog('How many potatoes you want to chop ?', { 
         -- { type = 'checkbox', label = 'Sweet Potatoes'},
         -- { type = 'checkbox', label = 'Ordinary Potatoes'},
@@ -160,7 +160,7 @@ function startChopping(itemIndex)
           Cooking = false
           break 
         end
-        MakeFries(Config.Recipes["burgers"][itemIndex], Config.Recipes["burgers"][itemIndex].Rewards)   
+        chopPotatoes(Config.Recipes["potatoes"][itemIndex], Config.Recipes["potatoes"][itemIndex].Rewards)   
         Wait(4200)
       else
         Cooking = false
@@ -168,7 +168,7 @@ function startChopping(itemIndex)
       end
     end
 
-  end, Config.Recipes["burgers"][itemIndex].RequiredItems, count) 
+  end, Config.Recipes["potatoes"][itemIndex].RequiredItems, count) 
 
 end
 
@@ -195,7 +195,7 @@ function startPatty(itemIndex)
           Cooking = false
           break 
         end
-        MakeFries(Config.Recipes["burgers"][itemIndex], Config.Recipes["burgers"][itemIndex].Rewards)   
+        MakePatty(Config.Recipes["burgers"][itemIndex], Config.Recipes["burgers"][itemIndex].Rewards)   
         Wait(4200)
       else
         Cooking = false
@@ -274,7 +274,7 @@ function startMilkShake(itemIndex)
           Cooking = false
           break 
         end
-        MakeFries(Config.Recipes["fries"][itemIndex], Config.Recipes["fries"][itemIndex].Rewards)   
+        MakeMShake(Config.Recipes["milkshakes"][itemIndex], Config.Recipes["milkshakes"][itemIndex].Rewards)   
         Wait(4200)
       else
         Cooking = false

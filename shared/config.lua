@@ -20,33 +20,35 @@ Config.Locations = {
         vector3(-1565.4911, -447.3758, 35.7973)
     },
 
-    Stash = vector3(0, 0, 0),
+    Stash = vector3(-1561.9803, -454.9490, 39.9263),
     
+    Billing = vector3(-1556.8026, -450.8565, 35.7973),
+
     jobLocations = {
-        Duty = vector3(0, 0, 0),
-        bossMenu = vector3(0, 0, 0),
-        bossStash = vector3(0, 0, 0)
+        Duty = vector3(-1553.7180, -459.7288, 36.2004),
+        bossMenu = vector3(-1567.3739, -450.2719, 39.9071),
+        bossStash = vector3(-1567.8638, -448.3427, 39.9071)
     }
 }
 
 Config.Fridgeitems = {
-    { name = 'bacon', price = 10 },
-    { name = 'burgerbuns', price = 10 },
-    { name = 'burgermeatpatty_cooked', price = 15 },
-    { name = 'burgermeatpatty_raw', price = 10 },
-    { name = 'burgervegetablepatty_cooked', price = 10 },
-    { name = 'burgervegetablepatty_raw', price = 15 },
-    { name = 'cheese', price = 10 },
-    { name = 'chocolate', price = 10 },
-    { name = 'chocolatesyrup', price = 15 },
-    { name = 'choppedpotato', price = 10 },
-    { name = 'choppedsweetpotato', price = 10 },
-    { name = 'icecream', price = 15 },
-    { name = 'milk', price = 10 },
-    { name = 'mixedvegetables', price = 10 },
-    { name = 'potato', price = 15 },
-    { name = 'strawberries', price = 10 },
-    { name = 'sweetpotato', price = 10 },
+    { name = 'bacon', price = 10, count = 100 },
+    { name = 'burgerbuns', price = 10, count = 100 },
+    { name = 'burgermeatpatty_cooked', price = 15, count = 100 },
+    { name = 'burgermeatpatty_raw', price = 10, count = 100 },
+    { name = 'burgervegetablepatty_cooked', price = 10, count = 100 },
+    { name = 'burgervegetablepatty_raw', price = 15, count = 100 },
+    { name = 'cheese', price = 10, count = 100 },
+    { name = 'chocolate', price = 10, count = 100 },
+    { name = 'chocolatesyrup', price = 15, count = 100 },
+    { name = 'choppedpotato', price = 10, count = 100 },
+    { name = 'choppedsweetpotato', price = 10, count = 100 },
+    { name = 'icecream', price = 15, count = 100 },
+    { name = 'milk', price = 10, count = 100 },
+    { name = 'mixedvegetables', price = 10, count = 100 },
+    { name = 'potato', price = 15, count = 100 },
+    { name = 'strawberries', price = 10, count = 100 },
+    { name = 'sweetpotato', price = 10, count = 100 },
 }
 
 Config.Recipes = {

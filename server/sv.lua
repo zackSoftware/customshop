@@ -56,12 +56,18 @@ QBCore.Functions.CreateCallback('customshop:server:get:requiredItems', function(
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
     local allItemsExist = true
-
+    print(json.encode(requiredItems))
+    local requiredItems = requiredItems
     -- Iterate over each required item and its quantity
     for itemName, quantity in pairs(requiredItems) do
-        local item = Ply.Functions.GetItemByName(itemName)
+        --local item = Ply.Functions.GetItemByName(itemName)
+        local itemAmount = tonumber(exports.ox_inventory:GetItemCount(source, itemName))
         -- Check if the item exists and its quantity is sufficient
-        if item == nil or item.amount < quantity * count then
+        print(itemName, quantity, itemAmount)
+        if itemAmount == nil or itemAmount < (quantity * count) then
+            print('Refused')
+            print(itemAmount < (quantity * count))
+            print(itemName, itemAmount, quantity, count, 'Total needed', (quantity * count))
             allItemsExist = false
             break
         end
@@ -69,5 +75,18 @@ QBCore.Functions.CreateCallback('customshop:server:get:requiredItems', function(
     print(allItemsExist)
     -- Return true if all required items exist in sufficient quantities, otherwise return false
     cb(allItemsExist)
+end)
+
+local function RegisterStash(name, label, slots, maxWeight, owner, groups, coords)
+    local ox_inventory = exports.ox_inventory
+	ox_inventory:RegisterStash(name, label or 'Stash', slots or 50, maxWeight or 1000000, owner, groups, coords)
+end
+
+RegisterNetEvent('customshop:server:RegisterStash', function(name, label, slots, maxWeight, owner, groups, coords)
+	if source then
+      print('Registring stash')
+
+		RegisterStash(name, label, slots, maxWeight, owner, groups, coords)
+	end
 end)
 

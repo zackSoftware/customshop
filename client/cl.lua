@@ -36,11 +36,21 @@ Citizen.CreateThread(function()
   EndTextCommandSetBlipName(CustomShop)
 end) 
 
+AddEventHandler('customshop:client:OpenStash', function(name)
+	-- print(GetInvokingResource())
+     local ox_inventory = exports.ox_inventory
+    -- if GetInvokingResource() ~= CurrentResourceName then return end
+    if not ox_inventory:openInventory('stash', name) then
+      print('Registring stash')
+        TriggerServerEvent('customshop:server:RegisterStash', name)
+        ox_inventory:openInventory('stash', name)
+    end
+end)
 
 for k, v in pairs(Config.Recipes) do 
   local options = {}
   local desc
-
+  local func
   for i, j in pairs(v) do
     if j.func then
       func = _G[j.func]
@@ -152,23 +162,63 @@ CreateThread(function()
                 { location = Config.Locations.PreparingFries, actionText = 'Make fries', contextName = 'makefries' },
                 { location = Config.Locations.Cooking, actionText = 'Start Cooking Burgers', contextName = 'makepatty' },
                 { location = Config.Locations.MilkShakes, actionText = 'Make Milk Shakes', contextName = 'makeshake' },
-                { location = Config.Locations.Stash, actionText = 'Yum Yums Stash', contextName = 'burgershotStash07' }
+                { location = Config.Locations.Billing, actionText = 'Bill Customers', contextName = 'billing' },
+                { location = Config.Locations.Stash, actionText = 'Yum Yums Stash', type = 'stash', contextName = 'burgershotStash07' }
+
             }
+            local jobLocations = {
+                { location = Config.Locations.jobLocations.Duty, actionText = 'Set Duty', type = 'duty' },
+                { location = Config.Locations.jobLocations.bossMenu, actionText = 'Boss Menu', type = 'bossmenu' },
+                { location = Config.Locations.jobLocations.bossStash, actionText = 'Open Boss Stash', type = 'bossstash', name = 'YumsBossStash' },
+                
+            }
+            if PlayerJob.onduty then 
+              for _, markerData in ipairs(markerLocations) do
+                  local markerLocation = markerData.location
+                  local actionText = markerData.actionText
+                  local contextName = markerData.contextName
 
-            for _, markerData in ipairs(markerLocations) do
-                local markerLocation = markerData.location
-                local actionText = markerData.actionText
-                local contextName = markerData.contextName
+                  if #(pos - vector3(markerLocation.x, markerLocation.y, markerLocation.z)) < 10.0 then
+                      DrawMarker(2, markerLocation.x, markerLocation.y, markerLocation.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
+                      if #(pos - vector3(markerLocation.x, markerLocation.y, markerLocation.z + 0.3)) < 1.5 then
+                          DrawText3Ds(markerLocation.x, markerLocation.y, markerLocation.z + 0.3, '~g~E~w~ - ' .. actionText)
+                          if IsControlJustReleased(0, 38) then
+                            if markerData.type and markerData.type == 'stash' then
+                              TriggerEvent('customshop:client:OpenStash', markerData.contextName)
+                            elseif markerData.contextName == 'billing' then 
+                              TriggerEvent('jim-payments:client:Charge')
+                            else
+                              lib.showContext(contextName)
+                            end
+                          end
+                      end
+                  end
+              end
+            end
+            
+            for k, jobMarkerData in ipairs(jobLocations) do
+              local markerLocation = jobMarkerData.location
+              local actionText = jobMarkerData.actionText
+              if jobMarkerData.type ~= 'duty' and not PlayerJob.isboss then
+                goto continue
+              end
+              if #(pos - vector3(markerLocation.x, markerLocation.y, markerLocation.z)) < 10.0 then
+                  DrawMarker(2, markerLocation.x, markerLocation.y, markerLocation.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
+                  if #(pos - vector3(markerLocation.x, markerLocation.y, markerLocation.z + 0.3)) < 1.5 then
+                      DrawText3Ds(markerLocation.x, markerLocation.y, markerLocation.z + 0.3, '~g~E~w~ - ' .. actionText)
+                      if IsControlJustReleased(0, 38) then
+                          if jobMarkerData.type == 'bossmenu' and PlayerJob.isboss then 
+                            TriggerEvent('qb-bossmenu:client:OpenMenu')
+                          elseif jobMarkerData.type == 'bossstash' and PlayerJob.isboss then 
+                            TriggerEvent('customshop:client:OpenStash', jobMarkerData.name)
+                          elseif jobMarkerData.type == 'duty' then 
+                            TriggerServerEvent('QBCore:ToggleDuty')
+                          end
 
-                if #(pos - vector3(markerLocation.x, markerLocation.y, markerLocation.z)) < 10.0 then
-                    DrawMarker(2, markerLocation.x, markerLocation.y, markerLocation.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
-                    if #(pos - vector3(markerLocation.x, markerLocation.y, markerLocation.z + 0.3)) < 1.5 then
-                        DrawText3Ds(markerLocation.x, markerLocation.y, markerLocation.z + 0.3, '~g~E~w~ - ' .. actionText)
-                        if IsControlJustReleased(0, 38) then
-                            lib.showContext(contextName)
-                        end
-                    end
-                end
+                      end
+                  end
+              end
+              ::continue::
             end
           else
             Wait(3000)
@@ -186,7 +236,7 @@ CreateThread(function()
       if LocalPlayer.state.isLoggedIn and not Cooking then
           local inFridgeRange = false
           local pos = GetEntityCoords(PlayerPedId())
-          if PlayerJob.name == "yumyums" then
+          if PlayerJob.name == "yumyums" and PlayerJob.onduty then
             for k = 1, #Config.Locations.Fridges, 1 do 
               v = Config.Locations.Fridges[k]
               local dist = #(pos - v)
