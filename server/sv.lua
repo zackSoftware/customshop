@@ -24,6 +24,30 @@ RegisterNetEvent('customshop:server:removeItems', function(itemName, amount)
     
 end)
 
+AddEventHandler('onResourceStart', function(res)
+    if GetCurrentResourceName() ~= res then return end
+    print('Registring fridge')
+    exports.ox_inventory:RegisterShop('YumYumsFridge', {
+        name = 'Fridge',
+        inventory = Config.Fridgeitems,
+        locations = Config.Locations.Fridges,
+        -- groups = {
+        --     yumyums = 0
+        -- }
+    })
+end)
+
+-- CreateThread(function()
+--     exports.ox_inventory:RegisterShop('YumYumsFridge', {
+--       name = 'Fridge',
+--       inventory = Config.Fridgeitems,
+--       locations = Config.Locations.Fridges,
+--       groups = {
+--           yumyums = 0
+--       }
+--   })
+--   end)
+
 
 ---- Items checking 
 

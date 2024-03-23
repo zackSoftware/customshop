@@ -15,9 +15,9 @@ Config.Locations = {
     MilkShakes = vector3(-1564.5176, -451.1414, 35.7972),
 
     Fridges = {  
-        [1] = vector3(-1567.6212, -449.4955, 35.7973), 
-        [2] = vector3(-1566.6411, -448.5302, 35.7975), 
-        [3] = vector3(-1565.4911, -447.3758, 35.7973)
+        vector3(-1567.6212, -449.4955, 35.7973), 
+        vector3(-1566.6411, -448.5302, 35.7975), 
+        vector3(-1565.4911, -447.3758, 35.7973)
     },
 
     Stash = vector3(0, 0, 0),
@@ -27,6 +27,26 @@ Config.Locations = {
         bossMenu = vector3(0, 0, 0),
         bossStash = vector3(0, 0, 0)
     }
+}
+
+Config.Fridgeitems = {
+    { name = 'bacon', price = 10 },
+    { name = 'burgerbuns', price = 10 },
+    { name = 'burgermeatpatty_cooked', price = 15 },
+    { name = 'burgermeatpatty_raw', price = 10 },
+    { name = 'burgervegetablepatty_cooked', price = 10 },
+    { name = 'burgervegetablepatty_raw', price = 15 },
+    { name = 'cheese', price = 10 },
+    { name = 'chocolate', price = 10 },
+    { name = 'chocolatesyrup', price = 15 },
+    { name = 'choppedpotato', price = 10 },
+    { name = 'choppedsweetpotato', price = 10 },
+    { name = 'icecream', price = 15 },
+    { name = 'milk', price = 10 },
+    { name = 'mixedvegetables', price = 10 },
+    { name = 'potato', price = 15 },
+    { name = 'strawberries', price = 10 },
+    { name = 'sweetpotato', price = 10 },
 }
 
 Config.Recipes = {
@@ -39,7 +59,7 @@ Config.Recipes = {
             Rewards = {
                 'choppedpotato'
             },
-            func = 'startChop' -- Do not touch this if you dom't know what you're doing ** It will break the script **
+            func = 'startChop' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
         [2]= {
             Name = 'Sweet Potatoes',
@@ -64,7 +84,7 @@ Config.Recipes = {
             Rewards = {
                 'big_piggy_burger'
             },
-            func = 'startPatty' -- Do not touch this if you dom't know what you're doing ** It will break the script **
+            func = 'startPatty' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
         [2]= {
             Name = 'Heart Attack Burger',
@@ -76,7 +96,7 @@ Config.Recipes = {
             Rewards = {
                 'heart_attack_burger'
             },
-            func = 'startPatty' -- Do not touch this if you dom't know what you're doing ** It will break the script **
+            func = 'startPatty' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
         [3]= {
             Name = 'Filthy Crim Burger',
@@ -88,7 +108,7 @@ Config.Recipes = {
             Rewards = {
                 'filthy_crim_burger'
             },
-            func = 'startPatty' -- Do not touch this if you dom't know what you're doing ** It will break the script **
+            func = 'startPatty' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
         [4]= {
             Name = 'Danny Burger',
@@ -100,7 +120,7 @@ Config.Recipes = {
             Rewards = {
                 'danny_burger'
             },
-            func = 'startPatty' -- Do not touch this if you dom't know what you're doing ** It will break the script **
+            func = 'startPatty' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
         [5]= {
             Name = 'Vegetarian Burger',
@@ -112,7 +132,7 @@ Config.Recipes = {
             Rewards = {
                 'vegetarian_burger'
             },
-            func = 'startPatty' -- Do not touch this if you dom't know what you're doing ** It will break the script **
+            func = 'startPatty' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
     },
     ["fries"] = {
@@ -161,7 +181,7 @@ Config.Recipes = {
             Rewards = {
                 'loaded_thickshake'
             },
-            func = 'startMilkShake' -- Do not touch this if you dom't know what you're doing ** It will break the script **
+            func = 'startMilkShake' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
         [2]= {
             Name = 'Chocolate Milkshake',
@@ -172,7 +192,7 @@ Config.Recipes = {
             Rewards = {
                 'chocolate_milkshake'
             },
-            func = 'startMilkShake' -- Do not touch this if you dom't know what you're doing ** It will break the script **
+            func = 'startMilkShake' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
         [3]= {
             Name = 'Strawberry Milkshake',
@@ -183,7 +203,7 @@ Config.Recipes = {
             Rewards = {
                 'strawberry_milkshake'
             },
-            func = 'startMilkShake' -- Do not touch this if you dom't know what you're doing ** It will break the script **
+            func = 'startMilkShake' -- Do not touch this if you don't know what you're doing ** It will break the script **
         }
     },
     

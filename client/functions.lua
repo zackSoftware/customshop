@@ -137,42 +137,44 @@ end
 
 function startChopping(itemIndex)
     local input =  lib.inputDialog('How many potatoes you want to chop ?', { 
-        { type = 'checkbox', label = 'Sweet Potatoes'},
-        { type = 'checkbox', label = 'Ordinary Potatoes'},
+        -- { type = 'checkbox', label = 'Sweet Potatoes'},
+        -- { type = 'checkbox', label = 'Ordinary Potatoes'},
 
-        { type = 'number', label = 'Enter a number:', required = true, min = 1},
+        { type = 'number', label = 'Quantity:', required = true, min = 1},
         }
     )
     if not input then return end
-    local total = 0
-    for k=1, #input - 1, 1 do 
-      if input[k] then
-        total = total + 1
-      end
-    end
-    if total > 1  then 
-      QBCore.Functions.Notify('You can choose only one to chop', 'error', 4000)
-      return
-    elseif total < 1 then 
-      QBCore.Functions.Notify('You must choose one to chop', 'error', 4000)
+  local count = input[1]
+  local itemIndex = itemIndex
+  QBCore.Functions.TriggerCallback('customshop:server:get:requiredItems', function(result)
+    if not result then 
+      QBCore.Functions.Notify('You\'re Missing some items', 'error', 4000)
       return
     end
-    if input then 
-      local choice
-      for i = 1, #input - 1 do
-          if input[i] then
-              choice = input[i]
-              break
-          end
+
+    Cooking = true
+    while Cooking do 
+      if count > 0 then
+        count = count - 1
+        if IsControlJustPressed(0, 200) then 
+          Cooking = false
+          break 
+        end
+        MakeFries(Config.Recipes["burgers"][itemIndex], Config.Recipes["burgers"][itemIndex].Rewards)   
+        Wait(4200)
+      else
+        Cooking = false
+        break 
       end
-      print(indexOf(input, choice))
     end
+
+  end, Config.Recipes["burgers"][itemIndex].RequiredItems, count) 
 
 end
 
 function startPatty(itemIndex)
-  local input =  lib.inputDialog('What burger you want to make and how many?', {
-    { type = 'number', label = 'How many burgers you wanna make:', required = true, min = 1},
+  local input =  lib.inputDialog('How many burgers you wanna make?', {
+    { type = 'number', label = 'Quantity:', required = true, min = 1},
     }
   )
   ---- Logic Handling -------------------------------
@@ -184,40 +186,37 @@ function startPatty(itemIndex)
       QBCore.Functions.Notify('You\'re Missing some items', 'error', 4000)
       return
     end
+
     Cooking = true
-    
     while Cooking do 
       if count > 0 then
-        print('Cooking,', count, Cooking )
         count = count - 1
         if IsControlJustPressed(0, 200) then 
-          print('Setting Cooking to', Cooking )
           Cooking = false
           break 
         end
-        MakeFries(Config.Recipes["fries"][itemIndex], Config.Recipes["fries"][itemIndex].Rewards)   
+        MakeFries(Config.Recipes["burgers"][itemIndex], Config.Recipes["burgers"][itemIndex].Rewards)   
         Wait(4200)
       else
         Cooking = false
-        print('Setting Cooking to', Cooking )
-
         break 
       end
     end
-  end, Config.Recipes["fries"][itemIndex].RequiredItems, count) 
+
+  end, Config.Recipes["burgers"][itemIndex].RequiredItems, count) 
 end
 
 
 function startFries(itemIndex)
  
-  local input =  lib.inputDialog('What burger you want to make and how many?', {
+  local input =  lib.inputDialog('WHow many fries you wanna make?', {
     -- { type = 'checkbox', label = 'Loaded Fries'},
     -- --{ type = 'multi-select', options = {value = '1'}, label = 'Loaded Fries', description = 'x1 Chopped Potatoes'},
 
     -- { type = 'checkbox', label = 'French Fries'},
     -- { type = 'checkbox', label = 'Sweet Potato Fries'},
 
-    { type = 'number', label = 'How many fries you wanna make:', required = true, min = 1},
+    { type = 'number', label = 'Quantity:', required = true, min = 1},
     
     }
   )
@@ -234,7 +233,6 @@ function startFries(itemIndex)
     
     while Cooking do 
       if count > 0 then
-        print('Cooking,', count, Cooking )
         count = count - 1
         if IsControlJustPressed(0, 200) then 
           print('Setting Cooking to', Cooking )
@@ -245,8 +243,6 @@ function startFries(itemIndex)
         Wait(4200)
       else
         Cooking = false
-        print('Setting Cooking to', Cooking )
-
         break 
       end
     end
@@ -256,42 +252,36 @@ end
 
 
 function startMilkShake(itemIndex)
-  local input =  lib.inputDialog('What burger you want to make and how many?', {
-    { type = 'checkbox', label = 'Loaded Milkshake'},
-    { type = 'checkbox', label = 'Chocolate Milkshake'},
-    { type = 'checkbox', label = 'Strawberry Milkshake'},
-
-    { type = 'number', label = 'How many burgers you wanna make:', required = true, min = 1},
-    
+  local input =  lib.inputDialog('How many milkshakes you wanna make?', {
+    { type = 'number', label = 'Quantity:', required = true, min = 1},   
     }
   )
   ---- Logic Handling -------------------------------
   if not input then return end
-  local total = 0
-  for k=1, #input - 1, 1 do 
-    if input[k] then
-      total = total + 1
+  local count = input[1]
+  local itemIndex = itemIndex
+  QBCore.Functions.TriggerCallback('customshop:server:get:requiredItems', function(result)
+    if not result then 
+      QBCore.Functions.Notify('You\'re Missing some items', 'error', 4000)
+      return
     end
-  end
-  ----------------------------------------------------
-  if total > 1  then 
-    QBCore.Functions.Notify('You can choose only one', 'error', 4000)
-    return
-  elseif total < 1 then 
-    QBCore.Functions.Notify('You must choose one', 'error', 4000)
-    return
-  end
-  
-  if input then 
-    local choice
-    for i = 1, #input - 1 do
-        if input[i] then
-            choice = input[i]
-            break
+    Cooking = true
+    
+    while Cooking do 
+      if count > 0 then
+        count = count - 1
+        if IsControlJustPressed(0, 200) then 
+          Cooking = false
+          break 
         end
+        MakeFries(Config.Recipes["fries"][itemIndex], Config.Recipes["fries"][itemIndex].Rewards)   
+        Wait(4200)
+      else
+        Cooking = false
+        break 
+      end
     end
-    print(indexOf(input, choice))
-  end
+  end, Config.Recipes["milkshakes"][itemIndex].RequiredItems, count) 
 
 end
 

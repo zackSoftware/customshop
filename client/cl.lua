@@ -21,6 +21,8 @@ AddEventHandler('onClientResourceStart', function(res)
   PlayerJob = QBCore.Functions.GetPlayerData().job
 end)
 
+
+
 Citizen.CreateThread(function()
   local Blip = Config.Locations.Blip
   CustomShop = AddBlipForCoord(Blip.location.x, Blip.location.y, Blip.location.z)
@@ -176,6 +178,8 @@ CreateThread(function()
 end)
 
 
+
+
 CreateThread(function()
   while true do
       Wait(3)
@@ -192,7 +196,7 @@ CreateThread(function()
                   if #(pos - v) < 1.5 then
                           DrawText3Ds(v.x, v.y, v.z + 0.3, '~R~E~w~ - ~g~Open Fridge')
                       if IsControlJustReleased(0, 38) then
-                        lib.showContext('chopping')
+                        exports.ox_inventory:openInventory('shop', {['id']= 1, ['type']='YumYumsFridge'})
                       end
                   end
               end
