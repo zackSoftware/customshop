@@ -9,7 +9,7 @@ Config.Locations = {
     Chopping = vector3(-1558.7715, -455.2092, 35.7973),
 
     PreparingFries = vector3(-1562.0931, -455.5031, 35.7973),
-
+    pattyCooking = vector3(-1563.1754, -449.8380, 35.7973),
     Cooking = vector3(-1559.7921, -453.7493, 35.7973),
 
     MilkShakes = vector3(-1564.5176, -451.1414, 35.7972),
@@ -21,7 +21,7 @@ Config.Locations = {
     },
 
     Stash = vector3(-1561.9803, -454.9490, 39.9263),
-    
+    foodStash = vector3(-1558.4059, -459.6892, 35.7973),
     Billing = vector3(-1556.8026, -450.8565, 35.7973),
 
     jobLocations = {
@@ -31,27 +31,49 @@ Config.Locations = {
     }
 }
 
-Config.Fridgeitems = {
-    { name = 'bacon', price = 10, count = 100 },
-    { name = 'burgerbuns', price = 10, count = 100 },
-    { name = 'burgermeatpatty_cooked', price = 15, count = 100 },
-    { name = 'burgermeatpatty_raw', price = 10, count = 100 },
-    { name = 'burgervegetablepatty_cooked', price = 10, count = 100 },
-    { name = 'burgervegetablepatty_raw', price = 15, count = 100 },
-    { name = 'cheese', price = 10, count = 100 },
-    { name = 'chocolate', price = 10, count = 100 },
-    { name = 'chocolatesyrup', price = 15, count = 100 },
-    { name = 'choppedpotato', price = 10, count = 100 },
-    { name = 'choppedsweetpotato', price = 10, count = 100 },
-    { name = 'icecream', price = 15, count = 100 },
-    { name = 'milk', price = 10, count = 100 },
-    { name = 'mixedvegetables', price = 10, count = 100 },
-    { name = 'potato', price = 15, count = 100 },
-    { name = 'strawberries', price = 10, count = 100 },
-    { name = 'sweetpotato', price = 10, count = 100 },
+Config.Fridgeitems = {vector3(-1558.4059, -459.6892, 35.7973),
+    { name = 'bacon', price = 10, count = 5000},
+    { name = 'burgerbuns', price = 10, count = 5000},
+    { name = 'burgermeatpatty_cooked', price = 15, count = 5000},
+    { name = 'burgermeatpatty_raw', price = 10, count = 5000},
+    { name = 'burgervegetablepatty_cooked', price = 10, count = 5000},
+    { name = 'burgervegetablepatty_raw', price = 15, count = 5000},
+    { name = 'cheese', price = 10, count = 5000},
+    { name = 'chocolate', price = 10, count = 5000},
+    { name = 'chocolatesyrup', price = 15, count = 5000},
+    { name = 'choppedpotato', price = 10, count = 5000},
+    { name = 'choppedsweetpotato', price = 10, count = 5000},
+    { name = 'icecream', price = 15, count = 5000},
+    { name = 'milk', price = 10, count = 5000},
+    { name = 'mixedvegetables', price = 10, count = 5000},
+    { name = 'potato', price = 15, count = 5000},
+    { name = 'strawberries', price = 10, count = 5000},
+    { name = 'sweetpotato', price = 10, count = 5000},
 }
 
 Config.Recipes = {
+    ["patty"] = {
+        [1] = {
+            Name = 'Meat patty',
+            RequiredItems = {
+                ["burgermeatpatty_raw"] = 1,
+            },
+            Rewards = {
+                'burgermeatpatty_cooked'
+            },
+            func = 'startPatty' -- Do not touch this if you don't know what you're doing ** It will break the script **
+        },
+        [2]= {
+            Name = 'Vegetable Potatoes',
+            RequiredItems = {
+                ["burgervegetablepatty_raw"] = 1,
+            },
+            Rewards = {
+                'burgervegetablepatty_cooked'
+            },
+            func = 'startPatty'
+        },
+    },
     ["potatoes"] = {
         [1] = {
             Name = 'Potatoes',
@@ -98,7 +120,7 @@ Config.Recipes = {
             Rewards = {
                 'heart_attack_burger'
             },
-            func = 'startPatty' -- Do not touch this if you don't know what you're doing ** It will break the script **
+            func = 'startBurgers' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
         [3]= {
             Name = 'Filthy Crim Burger',
@@ -218,9 +240,11 @@ Config.Consumables = {
         'filthy_crim_burger',
         'french_fries',
         'heart_attack_burger',
+        'vegetarian_burger'
+    },
+    eatFries = {
         'loaded_fries',
         'sweet_potato_fries',
-        'vegetarian_burger'
     },
     drink = {
         'strawberry_milkshake',

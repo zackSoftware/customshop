@@ -61,12 +61,12 @@ function MakeFries(data, rewards)
     StopAnimTask(PlayerPedId(), "amb@prop_human_bbq@male@base", "base", 1.0)   
 end
 
-function MakePatty(data, rewards)
+function MakeBurgers(data, rewards)
     for k,v in pairs(data.RequiredItems) do 
         -- k is the item name and v is the amount needed
         TriggerServerEvent('customshop:server:removeItems', k, v)
     end
-    QBCore.Functions.Progressbar("pickup", "Cooking the Patty..", 4000, false, true, {
+    QBCore.Functions.Progressbar("pickup", "Cooking the burger..", 4000, false, true, {
       disableMovement = true,
       disableCarMovement = false,
       disableMouse = false,
@@ -87,6 +87,34 @@ function MakePatty(data, rewards)
     QBCore.Functions.Notify("You cooked "  .. data.Name, "success")
     StopAnimTask(PlayerPedId(), "amb@prop_human_bbq@male@base", "base", 1.0)
 end
+
+function MakePatty(data, rewards)
+  for k,v in pairs(data.RequiredItems) do 
+      -- k is the item name and v is the amount needed
+      TriggerServerEvent('customshop:server:removeItems', k, v)
+  end
+  QBCore.Functions.Progressbar("pickup", "Cooking the Patty..", 4000, false, true, {
+    disableMovement = true,
+    disableCarMovement = false,
+    disableMouse = false,
+    disableCombat = false,
+  },{
+    animDict = "amb@prop_human_bbq@male@base",
+    anim = "base",
+    flags = 8,
+  }, {
+    model = "prop_kitch_pot_fry",
+    bone = 28422,
+    coords = { x = -0.175, y = -0.10, z = 0.07 },
+    rotation = { x = 175.0, y = 160.0, z = 210.0 },
+  }    
+)
+  Citizen.Wait(4000)
+  TriggerServerEvent('customshop:server:addItems', rewards, 1)
+  QBCore.Functions.Notify("You cooked "  .. data.Name, "success")
+  StopAnimTask(PlayerPedId(), "amb@prop_human_bbq@male@base", "base", 1.0)
+end
+
 
 function MakeMShake(data, rewards)
     for k,v in pairs(data.RequiredItems) do 
@@ -173,7 +201,7 @@ function startChop(itemIndex)
 
 end
 
-function startPatty(itemIndex)
+function startBurgers(itemIndex)
   local input =  lib.inputDialog('How many burgers you wanna make?', {
     { type = 'number', label = 'Quantity:', required = true, min = 1},
     }
@@ -196,7 +224,7 @@ function startPatty(itemIndex)
           Cooking = false
           break 
         end
-        MakePatty(Config.Recipes["burgers"][itemIndex], Config.Recipes["burgers"][itemIndex].Rewards)   
+        MakeBurgers(Config.Recipes["burgers"][itemIndex], Config.Recipes["burgers"][itemIndex].Rewards)   
         Wait(4200)
       else
         Cooking = false
@@ -207,6 +235,39 @@ function startPatty(itemIndex)
   end, Config.Recipes["burgers"][itemIndex].RequiredItems, count) 
 end
 
+function startPatty(itemIndex)
+  local input =  lib.inputDialog('How many patties you wanna make?', {
+    { type = 'number', label = 'Quantity:', required = true, min = 1},
+    }
+  )
+  ---- Logic Handling -------------------------------
+  if not input then return end
+  local count = input[1]
+  local itemIndex = itemIndex
+  QBCore.Functions.TriggerCallback('customshop:server:get:requiredItems', function(result)
+    if not result then 
+      QBCore.Functions.Notify('You\'re Missing some items', 'error', 4000)
+      return
+    end
+
+    Cooking = true
+    while Cooking do 
+      if count > 0 then
+        count = count - 1
+        if IsControlJustPressed(0, 200) then 
+          Cooking = false
+          break 
+        end
+        MakePatty(Config.Recipes["patty"][itemIndex], Config.Recipes["patty"][itemIndex].Rewards)   
+        Wait(4200)
+      else
+        Cooking = false
+        break 
+      end
+    end
+
+  end, Config.Recipes["patty"][itemIndex].RequiredItems, count) 
+end
 
 function startFries(itemIndex)
  

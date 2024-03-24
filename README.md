@@ -13,7 +13,8 @@
 			[1] = {
 				name = 'Boss',
 				isboss = true,
-				payment = 1000
+				payment = 1000,
+				bankAuth = true
 			},
 		},
 	},

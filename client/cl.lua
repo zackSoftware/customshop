@@ -165,8 +165,8 @@ lib.registerContext({
 })
 
 lib.registerContext({
-  id = 'makepatty',
-  title = 'Make Patty',
+  id = 'makeburgers',
+  title = 'Make burgers',
   options = {
     {
       title = 'Burgers',
@@ -212,6 +212,21 @@ lib.registerContext({
   }
 })
 
+lib.registerContext({
+  id = 'makepatty',
+  title = 'Cook patty',
+  options = {
+    {
+      title = 'Patty',
+      description = 'Start cooking patty',
+      icon = 'utensils',
+      onSelect = function()
+        lib.showContext('patty')
+      end,
+    },
+  }
+})
+
 
 
 ---- Markers --------
@@ -227,8 +242,11 @@ CreateThread(function()
                 { location = Config.Locations.PreparingFries, actionText = 'Make fries', contextName = 'makefries' },
                 { location = Config.Locations.Cooking, actionText = 'Start Cooking Burgers', contextName = 'makepatty' },
                 { location = Config.Locations.MilkShakes, actionText = 'Make Milk Shakes', contextName = 'makeshake' },
+                { location = Config.Locations.pattyCooking, actionText = 'Cook patty', contextName = 'makepatty' },
+
                 { location = Config.Locations.Billing, actionText = 'Bill Customers', contextName = 'billing' },
-                { location = Config.Locations.Stash, actionText = 'Yum Yums Stash', type = 'stash', contextName = 'burgershotStash07' }
+                { location = Config.Locations.Stash, actionText = 'Yum Yums Stash', type = 'stash', contextName = 'burgershotStash07' },
+                { location = Config.Locations.foodStash, actionText = 'Food Storage', type = 'stash', contextName = 'burgershotFoodStash07' }
 
             }
             local jobLocations = {
