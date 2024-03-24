@@ -1,4 +1,4 @@
-QBCore = exports['qb-core']:GetCoreObject()
+
 Cooking = false
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
@@ -21,6 +21,71 @@ AddEventHandler('onClientResourceStart', function(res)
   PlayerJob = QBCore.Functions.GetPlayerData().job
 end)
 
+RegisterNetEvent('customshop:client:EatBurger', function(itemName)
+  QBCore.Functions.Progressbar('eat_something', 'Eating', 5000, false, true, {
+      disableMovement = false,
+      disableCarMovement = false,
+      disableMouse = false,
+      disableCombat = true
+  }, {
+      animDict = 'mp_player_inteat@burger',
+      anim = 'mp_player_int_eat_burger',
+      flags = 49
+  }, {
+      model = 'prop_cs_burger_01',
+      bone = 60309,
+      coords = vec3(0.0, 0.0, -0.02),
+      rotation = vec3(30, 0.0, 0.0),
+  }, {}, function() -- Done
+      TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'remove')
+      TriggerServerEvent('consumables:server:addHunger', QBCore.Functions.GetPlayerData().metadata.hunger + 40)
+      TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
+  end)
+end)
+
+RegisterNetEvent('customshop:client:EatFries', function(itemName)
+  QBCore.Functions.Progressbar('eat_something', 'Eating', 5000, false, true, {
+      disableMovement = false,
+      disableCarMovement = false,
+      disableMouse = false,
+      disableCombat = true
+  }, {
+      animDict = 'mp_player_inteat@burger',
+      anim = 'mp_player_int_eat_burger',
+      flags = 49
+  }, {
+      model = 'prop_food_bs_chips',
+      bone = 60309,
+      coords = vec3(0.0, 0.0, -0.02),
+      rotation = vec3(30, 0.0, 0.0),
+  }, {}, function() -- Done
+      TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'remove')
+      TriggerServerEvent('consumables:server:addHunger', QBCore.Functions.GetPlayerData().metadata.hunger + 40)
+      TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
+  end)
+end)
+
+
+RegisterNetEvent('customshop:client:DrinkMilkShake', function(itemName)
+  QBCore.Functions.Progressbar('drink_something', 'Drinking...', 5000, false, true, {
+      disableMovement = false,
+      disableCarMovement = false,
+      disableMouse = false,
+      disableCombat = true
+  }, {
+      animDict = 'mp_player_intdrink',
+      anim = 'loop_bottle',
+      flags = 49
+  }, {
+      model = 'prop_food_cb_juice02',
+      bone = 60309,
+      coords = vec3(0.0, 0.0, -0.05),
+      rotation = vec3(0.0, 0.0, -40),
+  }, {}, function() -- Done
+      TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'remove')
+      TriggerServerEvent('consumables:server:addThirst', QBCore.Functions.GetPlayerData().metadata.thirst + 40)
+  end)
+end)
 
 
 Citizen.CreateThread(function()

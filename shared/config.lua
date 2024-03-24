@@ -211,5 +211,22 @@ Config.Recipes = {
     
 }
 
+Config.Consumables = {
+    eat = {
+        'big_piggy_burger',
+        'danny_burger',
+        'filthy_crim_burger',
+        'french_fries',
+        'heart_attack_burger',
+        'loaded_fries',
+        'sweet_potato_fries',
+        'vegetarian_burger'
+    },
+    drink = {
+        'strawberry_milkshake',
+        'chocolate_milkshake',
+        'loaded_thickshake',
+    }
+}
 
 Config.Debug = true -- For developers

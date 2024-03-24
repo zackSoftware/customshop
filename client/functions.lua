@@ -1,3 +1,5 @@
+QBCore = exports['qb-core']:GetCoreObject()
+
 function DrawText3D(x, y, z, text)
     SetTextScale(0.35, 0.35)
     SetTextFont(4)
@@ -103,7 +105,6 @@ function MakeMShake(data, rewards)
 end  
 
 function chopPotatoes(data, rewards)
-    local data = Config.Recipes['potatoes'].data
     for k,v in pairs(data.RequiredItems) do 
         -- k is the item name and v is the amount needed
         TriggerServerEvent('customshop:server:removeItems', k, v)
@@ -119,7 +120,7 @@ function chopPotatoes(data, rewards)
       anim = "base",
       flags = 8,
       }, {
-        model = "prop_cs_fork",
+        model = "w_me_knife_01",
         bone = 28422,
         coords = { x = -0.005, y = 0.00, z = 0.00 },
         rotation = { x = 175.0, y = 160.0, z = 0.0 },
