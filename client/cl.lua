@@ -114,14 +114,21 @@ end)
 
 for k, v in pairs(Config.Recipes) do 
   local options = {}
-  local desc
+  
   local func
+  
   for i, j in pairs(v) do
+    local desc
     if j.func then
       func = _G[j.func]
     end
     for itemName, quantity in pairs(j.RequiredItems) do
-        desc ='x'..quantity .. ' ' .. capitalize(itemName)
+      local itemLabel = QBCore.Shared.Items[itemName].label
+      if desc then
+        desc = desc .. ', x'..quantity .. ' ' .. itemLabel
+      else 
+        desc = 'x'..quantity .. ' ' .. itemLabel
+      end
     end
       table.insert(options, {
           title = j.Name,
@@ -240,7 +247,7 @@ CreateThread(function()
             local markerLocations = {
                 { location = Config.Locations.Chopping, actionText = 'Open chopping menu', contextName = 'chopping' },
                 { location = Config.Locations.PreparingFries, actionText = 'Make fries', contextName = 'makefries' },
-                { location = Config.Locations.Cooking, actionText = 'Start Cooking Burgers', contextName = 'makepatty' },
+                { location = Config.Locations.Cooking, actionText = 'Start Cooking Burgers', contextName = 'makeburgers' },
                 { location = Config.Locations.MilkShakes, actionText = 'Make Milk Shakes', contextName = 'makeshake' },
                 { location = Config.Locations.pattyCooking, actionText = 'Cook patty', contextName = 'makepatty' },
 
@@ -346,3 +353,4 @@ CreateThread(function()
       end
   end
 end)
+

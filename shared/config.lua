@@ -108,7 +108,7 @@ Config.Recipes = {
             Rewards = {
                 'big_piggy_burger'
             },
-            func = 'startPatty' -- Do not touch this if you don't know what you're doing ** It will break the script **
+            func = 'startBurgers' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
         [2]= {
             Name = 'Heart Attack Burger',
@@ -132,7 +132,7 @@ Config.Recipes = {
             Rewards = {
                 'filthy_crim_burger'
             },
-            func = 'startPatty' -- Do not touch this if you don't know what you're doing ** It will break the script **
+            func = 'startBurgers' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
         [4]= {
             Name = 'Danny Burger',
@@ -144,7 +144,7 @@ Config.Recipes = {
             Rewards = {
                 'danny_burger'
             },
-            func = 'startPatty' -- Do not touch this if you don't know what you're doing ** It will break the script **
+            func = 'startBurgers' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
         [5]= {
             Name = 'Vegetarian Burger',
@@ -156,7 +156,7 @@ Config.Recipes = {
             Rewards = {
                 'vegetarian_burger'
             },
-            func = 'startPatty' -- Do not touch this if you don't know what you're doing ** It will break the script **
+            func = 'startBurgers' -- Do not touch this if you don't know what you're doing ** It will break the script **
         },
     },
     ["fries"] = {
